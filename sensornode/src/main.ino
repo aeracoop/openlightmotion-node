@@ -11,8 +11,8 @@
 
 WiFiUDP Udp;
 WiFiConnector wifi;
-//BlockReader reader;
-FakeReader reader;
+BlockReader reader;
+//FakeReader reader;
 UDPWriter writer;
 
 void setup() {
