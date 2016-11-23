@@ -18,6 +18,8 @@ void draw(){
 }
 
 void receive(byte[] data, String HOST_IP, int PORT_RX) {
-    ByteBuffer buf = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN);
-    println("Packet:", buf.getShort(0), ",", buf.getShort(1));
+    ByteBuffer buf = ByteBuffer.wrap(data).order(ByteOrder.BIG_ENDIAN);
+    short x = buf.getShort();
+    short y = buf.getShort();
+    println("Packet:", x, ",", y);
 }
