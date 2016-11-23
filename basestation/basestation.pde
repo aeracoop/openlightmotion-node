@@ -2,7 +2,7 @@ import hypermedia.net.*;
 import java.nio.*;
 
 int PORT_RX = 7777;
-String HOST_IP = "10.42.0.1";
+String HOST_IP = "0.0.0.0";
 
 UDP udp;
 
