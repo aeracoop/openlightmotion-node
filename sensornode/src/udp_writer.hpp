@@ -14,7 +14,12 @@ public:
     }
 
     bool write(Point point) {
-        write(reinterpret_cast<uint8_t*>(&point), sizeof(point));
+        uint8_t buf[4];
+        buf[0] = (point.x >> 8) & 0xFF;
+        buf[1] = point.x & 0xFF;
+        buf[2] = (point.y >> 8) & 0xFF;
+        buf[3] = point.y & 0xFF;
+        write(buf, 4);
     }
 
 protected:
