@@ -9,7 +9,6 @@
 #include "udp_writer.hpp"
 #include "common.hpp"
 
-WiFiUDP Udp;
 WiFiConnector wifi;
 BlockReader reader;
 //FakeReader reader;
