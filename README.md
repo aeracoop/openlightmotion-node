@@ -65,6 +65,15 @@ If you don't provide a base_ip, when the node connects to the base AP, it will t
 
 Finally, once you set a node_number (higher than zero) the node's access point will be named `OpenLightMotionNode_N` (where N is the node_number) on the next reboot. This way each node has its own SSID and you can access all of them without conflicts.
 
+## No Camera Mode
+
+If you don't have a Pixy camera connected to the ESP8266, when you try to read data from the camera the SPI interface will block indefinitely.
+The web server will not work and you will not be able to use the node.
+
+If you want to test the rest of the system without the camera, you can enable a fake reader that will generate random coordinates instead of trying to read them from the camera.
+
+To do this, uncomment `#define USE_FAKE_READER` from the top of `main.ino`, rebuild and upload the firmware.
+
 ## Authors and Contributors
 This project is mainly developped by @lotelx, @nerochiaro, wiht some collaborators.
 This software is based on previous works like VRTraker.xyz, and the IR-Lock precision landing system.

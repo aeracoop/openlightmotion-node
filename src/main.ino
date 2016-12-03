@@ -1,3 +1,5 @@
+//#define USE_FAKE_READER
+
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 #include <FS.h>
@@ -18,8 +20,12 @@
 #include "config.hpp"
 #include "web.hpp"
 
+#ifndef USE_FAKE_READER
 BlockReader reader;
-//FakeReader reader;
+#else
+FakeReader reader;
+#endif
+
 Config config;
 WebManager web(config);
 WiFiConnector wifi(config, web);
