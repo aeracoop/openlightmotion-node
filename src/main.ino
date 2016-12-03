@@ -16,11 +16,13 @@
 #include "common.hpp"
 #include "config_manager.hpp"
 #include "config.hpp"
+#include "web.hpp"
 
 WiFiConnector wifi;
 BlockReader reader;
 //FakeReader reader;
 Config config;
+WebManager web(config);
 UDPWriter writer;
 
 void setup() {
@@ -35,6 +37,8 @@ void setup() {
 
     log("Reading configuration: ", config.fromFile() ? "ok" : "failed");
     config.printTo(Serial);
+
+    web.init();
         writer.write(Point(0, 0));
         reader.begin();
     });
@@ -46,5 +50,6 @@ void setup() {
 }
 
 void loop() {
+    web.loop();
     reader.loop();
 }
