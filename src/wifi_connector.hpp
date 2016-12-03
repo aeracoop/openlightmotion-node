@@ -3,9 +3,13 @@
 
 #include <ESP8266WiFi.h>
 
+#include "config.hpp"
+#include "web.hpp"
 class WiFiConnector {
 public:
-    WiFiConnector() {}
+    WiFiConnector(Config& config, WebManager& web) : config(config),
+                                                     web(web),
+                                                     connectionAttemptStartedAt(0)
 
     void init(std::function<void(IPAddress)> onStationConnected) {
         onIP = WiFi.onStationModeGotIP([onStationConnected](const WiFiEventStationModeGotIP e){
@@ -18,6 +22,10 @@ public:
 
 private:
     WiFiEventHandler onIP;
+
+    uint32_t connectionAttemptStartedAt;
+    Config& config;
+    WebManager& web;
 };
 
 #endif // WIFI_CONNECTOR_H
