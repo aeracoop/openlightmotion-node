@@ -4,6 +4,11 @@
 
 #include <PixySPI_SS.h>
 
+#define LOG_ACTIVE
+#define LOG_USE_SERIAL
+#define LOG_USE_SERIAL_SPEED 9600
+#include "logging.hpp"
+
 #include "wifi_connector.hpp"
 #include "block_reader.hpp"
 #include "fake_reader.hpp"
@@ -16,8 +21,8 @@ BlockReader reader;
 UDPWriter writer;
 
 void setup() {
-    Serial.begin(9600);
-    Serial.println("Open Light Motion sensor module");
+    log_init();
+    log("Open Light Motion sensor module");
 
     wifi.init([writer](IPAddress target) {
         Serial.println("Connected to station. Station address: ");
