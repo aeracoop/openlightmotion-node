@@ -7,6 +7,7 @@
 
 #include "config.hpp"
 #include "logging.hpp"
+#include "stats_manager.hpp"
 
 #ifndef WEB_PORT
   #define WEB_PORT 80
@@ -19,6 +20,7 @@ public:
 
     void init() {
         server.on("/config", [this]() { this->saveConfiguration(); });
+        server.on("/stats", [this]() { this->sendStatsPage(); });
         server.on("/", [this]() { this->sendConfigurationPage(); });
         server.onNotFound([this]() {
             server.send(404, "text/plain", String("Not found: ") + server.uri());
@@ -51,6 +53,22 @@ protected:
         config.toFile();
         config.printTo(Serial);
         sendConfigurationPage();
+    }
+
+    void sendStatsPage() {
+        StatsManager& stats = StatsManager::instance();
+        uint32_t tx_time = millis() - stats.tx_start_time;
+        uint32_t sent = stats.packets_sent;
+
+        server.send(200, "text/html",
+            String("<h1>Statistics</h1><table>") +
+            "<tr><td>Node IP address:</td><td>" + WiFi.localIP().toString() + " s</td></tr>" +
+            "<tr><td>Time transmitting</td><td>" + (tx_time / 1000) + " s</td></tr>" +
+            "<tr><td>Total packets sent</td><td>" + sent + "</td></tr>" +
+            "<tr><td>Data rate</td><td>" + (sent / (tx_time / 1000))  + " packets/s</td></tr>" +
+            "<tr><td>Last connection failure code</td><td>" + StatsManager::instance().last_disconnect_reason + " (<a href='https://github.com/esp8266/Arduino/blob/master/libraries/ESP8266WiFi/src/ESP8266WiFiType.h#L66' target='blank'>codes table</a>)</td></tr>" +
+            "</table>"
+        );
     }
 
     ESP8266WebServer server;

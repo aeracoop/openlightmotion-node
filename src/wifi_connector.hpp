@@ -6,6 +6,7 @@
 #include "config.hpp"
 #include "web.hpp"
 #include "logging.hpp"
+#include "stats_manager.hpp"
 
 constexpr uint32_t connection_timeout = 10000;
 
@@ -23,7 +24,7 @@ public:
         // to reconnect automatically.
         WiFi.setAutoConnect(false);
 
-        onDisconnected = WiFi.onStationModeDisconnected([this](const WiFiEventStationModeDisconnected e) {
+        onDisconnected = WiFi.onStationModeDisconnected([](const WiFiEventStationModeDisconnected e) {
             // Log any disconnect event (which are usually connection errors)
             // except for the case when we are explicitly leaving the AP (ASSOC_LEAVE event)
             // Codes for the various types are here:
@@ -44,7 +45,7 @@ public:
                 }
             }
 
-            this->lastDisconnectReason = e.reason;
+            StatsManager::instance().last_disconnect_reason = static_cast<uint32_t>(e.reason);
         });
 
         onConnected = WiFi.onStationModeConnected([](const WiFiEventStationModeConnected e) {

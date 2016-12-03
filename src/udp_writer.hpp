@@ -4,6 +4,7 @@
 #include <WiFiUdp.h>
 
 #include "common.hpp"
+#include "stats_manager.hpp"
 
 constexpr uint16_t target_port = 7777;
 
@@ -27,6 +28,8 @@ protected:
         Udp.beginPacket(target, target_port);
         Udp.write(buffer, size);
         Udp.endPacket();
+
+        StatsManager::instance().packets_sent++;
     }
 
     WiFiUDP Udp;
