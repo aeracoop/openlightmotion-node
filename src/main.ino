@@ -18,27 +18,32 @@
 #include "config.hpp"
 #include "web.hpp"
 
-WiFiConnector wifi;
 BlockReader reader;
 //FakeReader reader;
 Config config;
 WebManager web(config);
+WiFiConnector wifi(config, web);
 UDPWriter writer;
 
 void setup() {
     log_init();
     log("Open Light Motion sensor module");
 
-    wifi.init([writer](IPAddress target) {
-        Serial.println("Connected to station. Station address: ");
-        Serial.println(target);
-        writer.init(target);
     SPIFFS.begin();
 
     log("Reading configuration: ", config.fromFile() ? "ok" : "failed");
     config.printTo(Serial);
 
     web.init();
+    wifi.init([](IPAddress gateway) {
+        if (config.base_ip == IPAddress()) {
+            log("No destination IP configured. Sending to gateway IP:", gateway.toString());
+            writer.init(gateway);
+        } else {
+            log("Sending to configured destination IP:", config.base_ip.toString());
+            writer.init(config.base_ip);
+        }
+
         writer.write(Point(0, 0));
         reader.begin();
     });
@@ -50,6 +55,7 @@ void setup() {
 }
 
 void loop() {
+    wifi.loop();
     web.loop();
     reader.loop();
 }
