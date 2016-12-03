@@ -14,10 +14,13 @@
 #include "fake_reader.hpp"
 #include "udp_writer.hpp"
 #include "common.hpp"
+#include "config_manager.hpp"
+#include "config.hpp"
 
 WiFiConnector wifi;
 BlockReader reader;
 //FakeReader reader;
+Config config;
 UDPWriter writer;
 
 void setup() {
@@ -29,6 +32,9 @@ void setup() {
         Serial.println(target);
         writer.init(target);
     SPIFFS.begin();
+
+    log("Reading configuration: ", config.fromFile() ? "ok" : "failed");
+    config.printTo(Serial);
         writer.write(Point(0, 0));
         reader.begin();
     });
