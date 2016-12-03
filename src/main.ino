@@ -49,7 +49,7 @@ void setup() {
     });
 
     reader.init();
-    reader.setCallback([writer](Point point) {
+    reader.setCallback([](Point point) {
         writer.write(point);
     });
 }
