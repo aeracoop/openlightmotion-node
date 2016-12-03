@@ -44,6 +44,8 @@ void setup() {
             writer.init(config.base_ip);
         }
 
+        // Send a 0,0 point just to notify that we have connected successfully,
+        // then begin reading data from the source.
         writer.write(Point(0, 0));
         reader.begin();
     });
