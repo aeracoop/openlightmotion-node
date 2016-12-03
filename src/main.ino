@@ -1,5 +1,6 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
+#include <FS.h>
 
 #include <PixySPI_SS.h>
 
@@ -22,6 +23,7 @@ void setup() {
         Serial.println("Connected to station. Station address: ");
         Serial.println(target);
         writer.init(target);
+    SPIFFS.begin();
         writer.write(Point(0, 0));
         reader.begin();
     });
