@@ -39,7 +39,7 @@ If platformio fails to auto-detect your serial connection, you can add
 `upload_port = /dev/yourSerialDevice`
 To the platformio.ini file.
 
-## Configuration and Networking
+## Node Configuration
 
 By default all nodes start by bringing up an AP called `OpenLightMotionNode`, with a web server listening on 192.168.0.1
 
@@ -73,6 +73,22 @@ The web server will not work and you will not be able to use the node.
 If you want to test the rest of the system without the camera, you can enable a fake reader that will generate random coordinates instead of trying to read them from the camera.
 
 To do this, uncomment `#define USE_FAKE_READER` from the top of `main.ino`, rebuild and upload the firmware.
+
+## Statistics
+
+You can access a page displaying various statistics about the node by accessing the /stats page.
+
+## Networking
+
+Please note that once you configure the node to connect to an access point, you will be able to access the web server also from a machine connected to that network, without having to connect to the node's AP directly.
+
+The only problem with this is that you don't know the IP address of the node on the network, because it is assigned by DHCP.
+
+If you control the DHCP server, then you can make sure that each node always gets the same IP (ideally with the last digit equal to the node_number).
+
+Otherwise you can connect once to the node's AP (OpenLightMotionNode_N) and check the /stats page. This page will display the IP.
+
+You usually need to do this only a few times, because DHCP servers tend to re-assign the same address to the same client for a while.
 
 ## Authors and Contributors
 This project is mainly developped by @lotelx, @nerochiaro, wiht some collaborators.
