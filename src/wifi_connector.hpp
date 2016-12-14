@@ -9,6 +9,7 @@
 #include "stats_manager.hpp"
 
 constexpr uint32_t connection_timeout = 10000;
+constexpr const char * ap_password = "12345678";
 
 class WiFiConnector {
 public:
@@ -103,7 +104,7 @@ public:
         // are enough people with mobile phones in the room it can be a problem.
         // Also note that the password needs to be at least 8 characters long
         // or it will be ignored and we will have an open network.
-        WiFi.softAP(node_name.c_str(), "12345678");
+        WiFi.softAP(node_name.c_str(), ap_password);
         WiFi.softAPConfig(IPAddress(192, 168, 0, 1), IPAddress(0, 0, 0, 0), IPAddress(255, 255, 255, 0));
         log("Started node access point with name: ", node_name);
 
