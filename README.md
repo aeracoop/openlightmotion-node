@@ -1,8 +1,8 @@
 # OpenLightMotion Node
-Tracking drones in infrared
+
 A project to tracking 3D positions from passive IR markers.
 
-This project is the firmware to run on ESP8266 wifi transceivers mounted.
+This repository is the firmware to run on ESP8266 wifi transceivers mounted.
 
 ## System Architecture
 
