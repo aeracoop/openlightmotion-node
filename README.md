@@ -25,14 +25,15 @@ The code in this repository is the firmware for the ESP8266 in the nodes.
 The base station is a central machine which receives the 2D coordinates of the target from all the nodes, and calculates the real 3D position.
 
 ## Build and Install
-To build this firmware you need to use the platformio framework. The simplest way, if you don't want to use the platformio IDE, is to install the command line version following the instructions here:
-http://docs.platformio.org/en/stable/installation.html#installer-script
-(assuming you are using Linux. See elsewhere in the same page for other platforms)
+To build this firmware you need to use the platformio framework.
+The simplest way, if you don't want to use the platformio IDE, is to install the command line version (platformio core) following the instructions here:
+http://docs.platformio.org/en/stable/core.html#core
+http://docs.platformio.org/en/stable/installation.html#installation-methods
 
-Then you build with:
+Then you can build with:
 `$ platformio run`
 
-And you upload to the device with:
+And you can upload to the device with:
 `$ platformio run --target upload`
 
 If platformio fails to auto-detect your serial connection, you can add
