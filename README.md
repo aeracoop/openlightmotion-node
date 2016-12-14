@@ -1,16 +1,8 @@
-# OpenLightMotion
+# OpenLightMotion Node
 Tracking drones in infrared
+A project to tracking 3D positions from passive IR markers.
 
-A project to capture 3D position from passive IR markers.
-
-## Open
-This code is licensed under the General Public License v3.0
-
-## Light
-We use infrared light, invisible to humans, to track high speed drones.
-
-## Motion
-With two Pixy smart cameras we capture motion and send the information to a base station.
+This project is the firmware to run on ESP8266 wifi transceivers mounted.
 
 ## System Architecture
 
@@ -90,6 +82,11 @@ Otherwise you can connect once to the node's AP (OpenLightMotionNode_N) and chec
 
 You usually need to do this only a few times, because DHCP servers tend to re-assign the same address to the same client for a while.
 
+## License
+This code is licensed under the General Public License v3.0
+
 ## Authors and Contributors
-This project is mainly developped by @lotelx, @nerochiaro, wiht some collaborators.
-This software is based on previous works like VRTraker.xyz, and the IR-Lock precision landing system.
+This project is mainly developped by @nerochiaro, with the help of @lotelx.
+This software is based on previous works and ideas like VRTraker.xyz, and the IR-Lock precision landing system.
+
+
