@@ -9,6 +9,7 @@
 #include "stats_manager.hpp"
 
 constexpr uint32_t connection_timeout = 10000;
+constexpr const char * ap_ssid = "OLMCameraNetwork";
 constexpr const char * ap_password = "12345678";
 
 class WiFiConnector {
@@ -92,7 +93,7 @@ public:
     }
 
     void setupSoftAP() {
-        String node_name = "OpenLightMotionNode";
+        String node_name = ap_ssid;
         if (config.node_number > 0) {
             node_name += "_";
             node_name += config.node_number;
