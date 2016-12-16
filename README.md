@@ -38,8 +38,8 @@ By default all nodes start by bringing up an AP called `OLMCameraNode`, with a w
 
 These access points have the default password "12345678" (this password is just to prevent other devices who are near the access points to connect to them automatically because they look like free Internet).
 
-Start one node at a time and connect to its AP with your machine.
-Access http://192.168.0.1/ to view the current configuration (which will be empty right now). Set configuration options by accessing http://192.168.0.1/config?key=value
+Start one node at a time and connect your machine to the AP of the node.
+Access http://192.168.0.1/config/ to view and edit the current configuration (which will be empty right now). You can also reset everything to the default values.
 
 The options currently available are:
 * base_ssid : the SSID of the base station (or router) we need to connect to
@@ -71,7 +71,7 @@ To do this, uncomment `#define USE_FAKE_READER` from the top of `main.ino`, rebu
 
 ## Statistics
 
-You can access a page displaying various statistics about the node by accessing the /stats page.
+You can access a page displaying various statistics about the node and the current configuration by accessing the /stats page.
 
 ## Networking
 

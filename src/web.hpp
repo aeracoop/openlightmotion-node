@@ -19,9 +19,11 @@ public:
                                  config(config) {}
 
     void init() {
-        server.on("/config", [this]() { this->saveConfiguration(); });
+        server.on("/config-reset", [this]() { this->resetConfiguration(); });
+        server.on("/config-save", [this]() { this->saveConfiguration(); });
+        server.on("/config", [this]() { this->sendConfigurationPage(); });
         server.on("/stats", [this]() { this->sendStatsPage(); });
-        server.on("/", [this]() { this->sendConfigurationPage(); });
+        server.on("/", [this]() { this->sendStatsPage(); });
         server.onNotFound([this]() {
             server.send(404, "text/plain", String("Not found: ") + server.uri());
         });
@@ -39,10 +41,28 @@ public:
 protected:
     void sendConfigurationPage() {
         server.send(200, "text/html",
-                    String("OK<br>base_ip:") + config.base_ip.toString() +
-                           "<br>base_ssid:" + config.base_ssid +
-                           "<br>base_password:" + config.base_password +
-                           "<br>node_number:" + config.node_number);
+                    String("<h1>Change Node Configuration</h1>") +
+                           "<p>Please note that the changes you make here will only be effective after you reboot the node.</p>" + 
+                           "<form method='POST' action='/config-save'>" +
+                           "<table>" +
+                           "<tr><td>base_ssid:</td><td><input type='text' name='base_ssid' value='" + config.base_ssid + "'></td></tr>" +
+                           "<tr><td>base_password:</td><td><input type='text' name='base_password' value='" + config.base_password + "'></td></tr>" +
+                           "<tr><td>base_ip:</td><td><input type='text' name='base_ip' value='" + config.base_ip.toString() + "'></td></tr>" +
+                           "<tr><td>node_number:</td><td><input type='text' name='node_number' value='" + String(config.node_number) + "'></td></tr>" +
+                           "<tr><td colspan='2'><input type='submit' name='save' value='Save'></input>" +
+                           "</table></form>" +
+                           "<form method='POST' action='/config-reset'>" +
+                           "<input type='submit' name='reset' value='Reset to defaults'></input>" +
+                           "</form>" +
+                           "<a href='/stats'>Node statistics</a>");
+    }
+
+    void resetConfiguration() {
+        SPIFFS.remove(config_file_path);
+        config.resetDefaults();
+        config.printTo(Serial);
+        server.sendHeader("Location", "/stats");
+        server.send(303);
     }
 
     void saveConfiguration() {
@@ -52,7 +72,8 @@ protected:
         if (server.hasArg("node_number")) config.node_number = server.arg("node_number").toInt();
         config.toFile();
         config.printTo(Serial);
-        sendConfigurationPage();
+        server.sendHeader("Location", "/stats");
+        server.send(303);
     }
 
     void sendStatsPage() {
@@ -63,11 +84,18 @@ protected:
         server.send(200, "text/html",
             String("<h1>Statistics</h1><table>") +
             "<tr><td>Node IP address:</td><td>" + WiFi.localIP().toString() + " s</td></tr>" +
-            "<tr><td>Time transmitting</td><td>" + (tx_time / 1000) + " s</td></tr>" +
-            "<tr><td>Total packets sent</td><td>" + sent + "</td></tr>" +
-            "<tr><td>Data rate</td><td>" + (sent / (tx_time / 1000))  + " packets/s</td></tr>" +
-            "<tr><td>Last connection failure code</td><td>" + StatsManager::instance().last_disconnect_reason + " (<a href='https://github.com/esp8266/Arduino/blob/master/libraries/ESP8266WiFi/src/ESP8266WiFiType.h#L66' target='blank'>codes table</a>)</td></tr>" +
-            "</table>"
+            "<tr><td>Time transmitting:</td><td>" + (tx_time / 1000) + " s</td></tr>" +
+            "<tr><td>Total packets sent:</td><td>" + sent + "</td></tr>" +
+            "<tr><td>Data rate:</td><td>" + (sent / (tx_time / 1000))  + " packets/s</td></tr>" +
+            "<tr><td>Last connection failure code:</td><td>" + StatsManager::instance().last_disconnect_reason + " (<a href='https://github.com/esp8266/Arduino/blob/master/libraries/ESP8266WiFi/src/ESP8266WiFiType.h#L66' target='blank'>codes table</a>)</td></tr>" +
+            "</table>" +
+            "<h1>Current node configuration</h1><table>" +
+            "<tr><td>base_ssid:</td><td>" + config.base_ssid + "</td></tr>" +
+            "<tr><td>base_password:</td><td>" + config.base_password + "</td></tr>" +
+            "<tr><td>base_ip:</td><td>" + config.base_ip.toString() + "</td></tr>" +
+            "<tr><td>node_number:</td><td>" + String(config.node_number) + "</td></tr>" +
+            "</table>" +
+            "<a href='/config'>Edit node configuration</a>"
         );
     }
 
