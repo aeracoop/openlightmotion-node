@@ -34,7 +34,7 @@ To the platformio.ini file.
 
 ## Node Configuration
 
-By default all nodes start by bringing up an AP called `OLMCameraNetwork`, with a web server listening on 192.168.0.1.
+By default all nodes start by bringing up an AP called `OLMCameraNode`, with a web server listening on 192.168.0.1.
 
 These access points have the default password "12345678" (this password is just to prevent other devices who are near the access points to connect to them automatically because they look like free Internet).
 
@@ -58,7 +58,7 @@ In any case, whether or not it manages to connect to the base AP, the node will 
 
 If you don't provide a base_ip, when the node connects to the base AP, it will try to send the UDP packets to the gateway IP that it is given by DHCP. This usually works if the base is also the access point. But if the access point is a separate router, then you need to provide a base_ip.
 
-Finally, once you set a node_number (higher than zero) the node's access point will be named `OLMCameraNetwork_N` (where N is the node_number) on the next reboot. This way each node has its own SSID and you can access all of them without conflicts.
+Finally, once you set a node_number (higher than zero) the node's access point will be named `OLMCameraNode_N` (where N is the node_number) on the next reboot. This way each node has its own SSID and you can access all of them without conflicts.
 
 ## No Camera Mode
 

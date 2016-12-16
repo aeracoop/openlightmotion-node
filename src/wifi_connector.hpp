@@ -9,7 +9,7 @@
 #include "stats_manager.hpp"
 
 constexpr uint32_t connection_timeout = 10000;
-constexpr const char * ap_ssid = "OLMCameraNetwork";
+constexpr const char * ap_ssid = "OLMCameraNode";
 constexpr const char * ap_password = "12345678";
 
 class WiFiConnector {
