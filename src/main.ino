@@ -37,6 +37,7 @@ void setup() {
 
     SPIFFS.begin();
 
+    config.resetDefaults();
     log("Reading configuration: ", config.fromFile() ? "ok" : "failed");
     config.printTo(Serial);
 

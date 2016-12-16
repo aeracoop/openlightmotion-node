@@ -6,6 +6,8 @@
 #include "config_manager.hpp"
 
 constexpr const char* config_file_path = "/config";
+constexpr const char* default_base_ssid = "OLMCameraNetwork";
+constexpr const char* default_base_password = "12345678";
 
 struct Config {
     IPAddress base_ip;
@@ -41,6 +43,13 @@ struct Config {
         to.println(base_password);
         to.print("node_number=");
         to.println(String(node_number));
+    }
+
+    void resetDefaults() {
+        this->base_ssid = default_base_ssid;
+        this->base_password = default_base_password;
+        this->base_ip = IPAddress(0, 0, 0, 0);
+        this->node_number = -1;
     }
 };
 
