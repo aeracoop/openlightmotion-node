@@ -28,6 +28,7 @@ public:
     void loop() {
         if (sending && block_callback) {
             block_callback(Point(rand(), rand()));
+            delay(10);
         }
     }
 
